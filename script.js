@@ -3,7 +3,6 @@
 const $ = id => document.getElementById(id);
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PHOTO = (id,title,file,caption,tag='A LITTLE PIECE OF US') => ({id,title,file,caption,tag,type:'photo'});
-// Add new cards here. Give each one a unique id so discoveries stay saved.
 const cards = [
  PHOTO('wallpaper','A very invasive lock screen.','wallpaper','You somehow made it onto my lock screen. Very invasive. Please continue.'),
  PHOTO('photobooth','Eight frames. All my favorites.','photobooth','Eight photos. Several questionable faces. Unfortunately, I like you in every single one.'),
@@ -25,7 +24,7 @@ const cards = [
  {id:'coffin-secret',title:'Here lies my dignity.',tag:'SECRET DELIVERY • YOU FOUND IT',type:'note',text:'Cause of death: Kailee.',extra:'Survived by a website, a 3D printer, and a deeply unimpressed cat.',secret:true}
 ];
 const french = [
-'Ma chère Kailee,',
+'MADEMOISELLE,',
 'Je voulais t’écrire une petite lettre discrète. Puis j’ai ajouté une enveloppe interactive, un arc, des cœurs et un chat. Comme tu peux le constater, je gère mes sentiments avec énormément de retenue.',
 'Tout a commencé avec « MAX CRUSH ACTIVATION ». Je tiens à préciser que tu as lancé cette expression. Tu portes donc une certaine responsabilité dans ce qui a suivi. Moi, j’ai simplement pris le problème au sérieux et décidé de lui construire un site internet.',
 'Depuis, les preuves s’accumulent.',
@@ -41,7 +40,7 @@ const french = [
 'P.-S. : Si Smudge demande, c’est elle qui a programmé le site.'
 ];
 const english = [
-'My dear Kailee,',
+'MADEMOISELLE,',
 'I wanted to write you a small, discreet letter. Then I added an interactive envelope, a bow, hearts, and a cat. As you can see, I handle my feelings with tremendous restraint.',
 'It all began with “MAX CRUSH ACTIVATION.” You introduced that expression, so you bear some responsibility for what followed. I simply took the problem seriously and decided to build it a website.',
 'The evidence has been piling up ever since.',
@@ -52,7 +51,7 @@ const english = [
 'And yes, about that famous voice message: I stand by my statement. I am your exclusive simp. A terrible sentence for my reputation, but apparently excellent for my happiness.',
 'Underneath all this nonsense, there is something very simple: I love being with you. I love our memories, our absurd moments, and all the little things that become important because they are ours.',
 'So I will keep writing notes, making gifts, and finding excessively complicated excuses to make you smile.',
-'I like you enormously. It has become quite embarrassing.',
+'I love you enormously. It has become quite embarrassing.',
 'Your Yacine,\nRomantic occasionally. Ridiculous full time.',
 'P.S. If Smudge asks, she programmed the website.'
 ];
