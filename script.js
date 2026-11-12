@@ -3,6 +3,7 @@
 const $ = id => document.getElementById(id);
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PHOTO = (id,title,file,caption,tag='A LITTLE PIECE OF US') => ({id,title,file,caption,tag,type:'photo'});
+// if i ever want to add more cards, i can just add them to this array. the deck is shuffled and drawn from, and the seen list is saved in localStorage.
 const cards = [
  PHOTO('wallpaper','A very invasive lock screen.','wallpaper','You somehow made it onto my lock screen. Very invasive. Please continue.'),
  PHOTO('photobooth','Eight frames. All my favorites.','photobooth','Eight photos. Several questionable faces. Unfortunately, I like you in every single one.'),
