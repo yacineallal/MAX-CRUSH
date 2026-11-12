@@ -100,3 +100,252 @@ stage.addEventListener('pointerup',e=>{if(!pulling||e.pointerId!==pointer)return
 stage.addEventListener('pointercancel',()=>{pulling=false;pull=0;positionArrow();});$('skip').onclick=shoot;
 window.addEventListener('resize',resize);if(document.fonts)document.fonts.ready.then(positionArrow);new ResizeObserver(()=>{if(!shot)positionArrow();}).observe(stage);resize();counts();requestAnimationFrame(effects);
 })();
+// ─── Pixel cat café music ─────────────────────────────────────
+(() => {
+  "use strict";
+
+  function setupCatMusic() {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = "♫ Cat music: OFF";
+    button.setAttribute("aria-label", "Turn on cat music");
+    button.setAttribute("aria-pressed", "false");
+
+    Object.assign(button.style, {
+      position: "fixed",
+      right: "12px",
+      bottom: "calc(12px + env(safe-area-inset-bottom, 0px))",
+      zIndex: "100",
+      border: "2px solid #d97b73",
+      borderRadius: "20px",
+      padding: "10px 14px",
+      background: "#fff7f2",
+      color: "#8f354b",
+      fontFamily: '"Pixelify Sans", monospace',
+      fontSize: "14px",
+      cursor: "pointer",
+      boxShadow: "0 3px 0 #b95a54",
+      touchAction: "manipulation"
+    });
+
+    document.body.appendChild(button);
+
+    let context;
+    let master;
+    let enabled = false;
+    let busy = false;
+    let timer;
+    let nextBeat = 0;
+    let step = 0;
+    const voices = new Set();
+
+    const beatLength = 0.23;
+
+    // Two little musical phrases. Null means a short rest.
+    const melody = [
+      72, null, 76, 79, 81, 79, 76, null,
+      74, 76, 79, null, 76, 74, 72, null,
+      69, null, 72, 76, 79, 76, 72, null,
+      71, 74, 77, null, 74, 71, 72, null
+    ];
+
+    const bass = [48, 53, 45, 55];
+
+    function frequency(note) {
+      return 440 * Math.pow(2, (note - 69) / 12);
+    }
+
+    function tone(note, time, duration, volume, type = "triangle") {
+      const oscillator = context.createOscillator();
+      const envelope = context.createGain();
+
+      oscillator.type = type;
+      oscillator.frequency.setValueAtTime(frequency(note), time);
+
+      envelope.gain.setValueAtTime(0, time);
+      envelope.gain.linearRampToValueAtTime(volume, time + 0.012);
+      envelope.gain.exponentialRampToValueAtTime(
+        0.0001,
+        time + duration
+      );
+
+      oscillator.connect(envelope);
+      envelope.connect(master);
+
+      voices.add(oscillator);
+      oscillator.onended = () => {
+        voices.delete(oscillator);
+        oscillator.disconnect();
+        envelope.disconnect();
+      };
+
+      oscillator.start(time);
+      oscillator.stop(time + duration + 0.02);
+    }
+
+    // A soft synthesized chirp shaped like a tiny meow.
+    function meow(time) {
+      const oscillator = context.createOscillator();
+      const envelope = context.createGain();
+
+      oscillator.type = "triangle";
+      oscillator.frequency.setValueAtTime(740, time);
+      oscillator.frequency.exponentialRampToValueAtTime(
+        1040,
+        time + 0.07
+      );
+      oscillator.frequency.exponentialRampToValueAtTime(
+        520,
+        time + 0.3
+      );
+
+      envelope.gain.setValueAtTime(0, time);
+      envelope.gain.linearRampToValueAtTime(0.09, time + 0.035);
+      envelope.gain.exponentialRampToValueAtTime(
+        0.0001,
+        time + 0.32
+      );
+
+      oscillator.connect(envelope);
+      envelope.connect(master);
+
+      voices.add(oscillator);
+      oscillator.onended = () => {
+        voices.delete(oscillator);
+        oscillator.disconnect();
+        envelope.disconnect();
+      };
+
+      oscillator.start(time);
+      oscillator.stop(time + 0.35);
+    }
+
+    function scheduleMusic() {
+      if (!enabled || document.hidden) return;
+
+      // Avoid replaying missed notes after an interruption.
+      if (nextBeat < context.currentTime) {
+        nextBeat = context.currentTime + 0.04;
+      }
+
+      while (nextBeat < context.currentTime + 0.15) {
+        const position = step % melody.length;
+        const note = melody[position];
+        const root = bass[Math.floor(position / 8)];
+
+        if (note !== null) {
+          tone(note, nextBeat, 0.19, 0.16, "square");
+        }
+
+        if (position % 4 === 0) {
+          tone(root, nextBeat, 0.65, 0.24);
+        }
+
+        // Quiet high sparkle between phrases.
+        if (position === 15) {
+          tone(84, nextBeat, 0.4, 0.08);
+        }
+
+        // One meow every four phrases.
+        if (step % 128 === 127) {
+          meow(nextBeat);
+        }
+
+        nextBeat += beatLength;
+        step++;
+      }
+    }
+
+    function stopNotes() {
+      for (const voice of voices) {
+        try {
+          voice.stop();
+        } catch {
+          // The voice may already have finished.
+        }
+      }
+    }
+
+    function updateButton() {
+      button.textContent = enabled
+        ? "♫ Cat music: ON"
+        : "♫ Cat music: OFF";
+
+      button.setAttribute("aria-pressed", String(enabled));
+      button.setAttribute(
+        "aria-label",
+        enabled ? "Turn off cat music" : "Turn on cat music"
+      );
+    }
+
+    button.addEventListener("click", async () => {
+      if (busy) return;
+      busy = true;
+
+      try {
+        if (enabled) {
+          enabled = false;
+          clearInterval(timer);
+          stopNotes();
+          await context.suspend();
+        } else {
+          const AudioContext =
+            window.AudioContext || window.webkitAudioContext;
+
+          if (!AudioContext) {
+            button.textContent = "Music unavailable";
+            button.disabled = true;
+            return;
+          }
+
+          if (!context) {
+            context = new AudioContext();
+            master = context.createGain();
+
+            // Overall volume: increase or decrease this value.
+            master.gain.value = 0.12;
+            master.connect(context.destination);
+          }
+
+          await context.resume();
+
+          enabled = true;
+          nextBeat = context.currentTime + 0.05;
+          scheduleMusic();
+          timer = setInterval(scheduleMusic, 50);
+        }
+
+        updateButton();
+      } catch {
+        enabled = false;
+        clearInterval(timer);
+        stopNotes();
+        updateButton();
+      } finally {
+        busy = false;
+      }
+    });
+
+    // Pause when she switches apps or locks her phone.
+    document.addEventListener("visibilitychange", () => {
+      if (!context || !enabled) return;
+
+      if (document.hidden) {
+        stopNotes();
+        void context.suspend().catch(() => {});
+      } else {
+        void context.resume().then(() => {
+          nextBeat = context.currentTime + 0.05;
+        }).catch(() => {});
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", setupCatMusic, {
+      once: true
+    });
+  } else {
+    setupCatMusic();
+  }
+})();
