@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#fae9e5">
+<title>Max Crush Activation • For Kailee</title>
+<meta name="description" content="A little collection of us. Made for Kailee, by Yacine.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"><script src="script.js" defer></script>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<header class="masthead"><a href="#" id="homeLink" aria-label="Return to envelope">Y + K <span>♥</span></a><span>PRIVATE LITTLE POST OFFICE</span><button id="archiveTop" class="text-button">Our archive <span id="countTop">0</span></button></header>
+<main>
+<section id="home" class="screen">
+<div class="eyebrow"><i></i> A DELIVERY, EXCLUSIVELY FOR KAILEE</div>
+<h1>MAX CRUSH<br><span>ACTIVATION.</span></h1>
+<p class="intro">A highly unnecessary amount of effort.<br>Unfortunately, all for you.</p>
+<div id="shooting" aria-label="Pull the bow down and release to open a surprise">
+<svg class="envelope" viewBox="0 -60 240 235" role="img" aria-label="A pink envelope sealed with a heart">
+<polygon id="flapOpen" points="6,40 234,40 120,-40" fill="#ffe0df" stroke="#bf716b" stroke-width="4" stroke-linejoin="round"/>
+<g id="paper"><rect x="26" y="14" width="188" height="130" rx="3" fill="#fffaf0" stroke="#d6aaa0" stroke-width="3"/><g fill="#f0b2bc"><rect x="46" y="34" width="148" height="6"/><rect x="46" y="52" width="110" height="6"/><rect x="46" y="70" width="130" height="6"/></g></g>
+<rect x="6" y="40" width="228" height="126" rx="5" fill="#fff3eb" stroke="#bf716b" stroke-width="4"/>
+<path d="M8 164L120 88L232 164" fill="none" stroke="#bf716b" stroke-width="3"/>
+<polygon id="flapClosed" points="6,40 234,40 120,118" fill="#f2b6c0" stroke="#bf716b" stroke-width="4" stroke-linejoin="round"/>
+<g transform="translate(120 111)"><g id="seal"><circle r="20" fill="#b73551" stroke="#8d2740" stroke-width="3"/><path d="M0 10C-17 -1 -8 -15 0 -6C8 -15 17 -1 0 10" fill="#ffe7e4"/></g></g>
+</svg>
+<svg id="arrow" viewBox="0 0 16 70" aria-hidden="true"><path d="M8 14V69" stroke="#986849" stroke-width="3"/><path d="M8 0L15 14H1Z" fill="#b73551"/><path d="M2 56L8 62L14 56M2 63L8 69L14 63" fill="none" stroke="#b73551" stroke-width="2.5" stroke-linecap="round"/></svg>
+<div class="bowwrap"><svg id="bow" viewBox="0 0 140 100" aria-hidden="true"><path d="M12 50Q70 -26 128 50" stroke="#c2944d" stroke-width="7" fill="none" stroke-linecap="round"/><path id="string" d="M12 50Q70 50 128 50" stroke="#986849" stroke-width="2.5" fill="none"/></svg></div>
+</div>
+<p id="hint" class="hint">Pull the bow down. Release a little chaos.</p>
+<button id="skip" class="primary">Open my surprise <span>↗</span></button>
+<p class="fine" id="newNote">Photos, love letters, and questionable evidence inside.</p>
+<div class="home-links"><button class="text-button" id="badDay">Having a rough day?</button><span>✦</span><button class="text-button" id="letterLink">A letter, en français</button></div>
+</section>
+<section id="surprise" class="screen" hidden aria-labelledby="cardTitle">
+<div class="eyebrow" id="cardType">A LITTLE PIECE OF US</div>
+<article id="card" class="memory-card"><div class="card-bar"><span id="cardNumber">DELIVERY 01</span><span aria-hidden="true">− □ ×</span></div><div id="cardBody"></div></article>
+<div class="card-actions"><button id="another" class="primary">Shoot another envelope ↗</button><button id="archiveFromCard" class="text-button">Visit our archive</button></div>
+<p class="fine" id="savedStatus" aria-live="polite"></p>
+</section>
+<section id="archive" class="screen" hidden aria-labelledby="archiveTitle">
+<div class="eyebrow">LITTLE THINGS WORTH KEEPING</div><h1 id="archiveTitle">Our little<br><span>archive.</span></h1><p class="intro" id="archiveProgress"></p><div id="archiveGrid" class="archive-grid"></div><button id="back" class="primary">Back to the post office ↗</button>
+</section>
+</main>
+<footer>MADE BY YACINE. SUPERVISED BY SMUDGE. <span>♥</span></footer>
+</body></html>

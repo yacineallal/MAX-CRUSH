@@ -1,0 +1,19 @@
+MAX CRUSH ACTIVATION — a little post office for Kailee
+
+START
+Unzip the folder and double-click index.html. Keep assets/, style.css and script.js beside it. The page works locally; use your IDE's local server for the most consistent browser-storage behavior. Google Fonts are optional; fallback fonts work offline.
+
+WHAT'S INSIDE
+Pull the bow downward and release, or use Open my surprise. The envelope reveals a shuffled photo, note, French letter, or Smudge report. Every regular card appears once per shuffle. Discoveries are automatically kept in Our archive on this browser. Having a rough day? and the French letter are also directly available from the home screen. Tap the little coffin button under its photo three times for a secret.
+
+EDIT
+Open script.js. The cards array near the top holds all photo captions and short notes. Add a unique id to each new card. Put a photo in assets/ and set its file name without .webp in the file field. The french and english arrays hold the full letter. Use the same ids for existing cards to preserve saved discoveries.
+
+PHONE
+The layout responds to screen width. The bow uses touch and mouse input. Reduced Motion disables continuous drifting and shortens transitions. Archive and shuffle progress stay in this browser's storage; they do not sync across devices. Private browsing, storage restrictions, or clearing website data may reset them.
+
+SHARE LATER
+Upload index.html, style.css, script.js and assets/ together to your chosen host, such as your GitHub Pages project. This package does not publish anything. A static public host makes the included photos available to anyone who can reach their URLs; use a suitable private host if you want authenticated access.
+
+VOICE MESSAGE
+The original screenshot is displayed as a keepsake. It is not playable audio. Add the actual recording in a future version for a real audio player.
